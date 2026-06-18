@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISEC Communication Log</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #ffffff;
+  --bg-secondary: #f7f8f9;
+  --bg-tertiary: #f1f2f3;
+  --text: #1a1a1a;
+  --text-secondary: #6b7280;
+  --text-tertiary: #9ca3af;
+  --border: rgba(0,0,0,0.10);
+  --border-secondary: rgba(0,0,0,0.18);
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1c1c1e;
+    --bg-secondary: #2c2c2e;
+    --bg-tertiary: #3a3a3c;
+    --text: #f5f5f7;
+    --text-secondary: #9ca3af;
+    --text-tertiary: #6b7280;
+    --border: rgba(255,255,255,0.10);
+    --border-secondary: rgba(255,255,255,0.18);
+  }
+}
+
+body {
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--bg-tertiary);
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+.container { max-width: 780px; margin: 0 auto; }
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  border-bottom: 0.5px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+.header h1 { font-size: 20px; font-weight: 500; letter-spacing: -0.3px; }
+.header p { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+.year-badge {
+  font-size: 12px; color: var(--text-secondary);
+  border: 0.5px solid var(--border); border-radius: 20px;
+  padding: 3px 10px; white-space: nowrap;
+}
+
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+@media (max-width: 500px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+.stat-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-md); padding: 12px 14px; }
+.stat-card .label { font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; }
+.stat-card .value { font-size: 22px; font-weight: 500; }
+
+.filter-row { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+.filter-btn {
+  font-size: 12px; padding: 4px 12px;
+  border: 0.5px solid var(--border); border-radius: 20px;
+  cursor: pointer; background: none; color: var(--text-secondary); font-family: var(--font);
+}
+.filter-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+.filter-btn:hover:not(.active) { border-color: var(--border-secondary); color: var(--text); }
+#initiativ-filters { margin-bottom: 1rem; }
+
+.section-label {
+  font-size: 11px; font-weight: 500; color: var(--text-tertiary);
+  letter-spacing: 0.5px; text-transform: uppercase; margin: 1.5rem 0 8px;
+}
+
+.activity-list { display: flex; flex-direction: column; gap: 8px; }
+.activity-item {
+  background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg);
+  padding: 12px 16px; display: grid; grid-template-columns: 80px 1fr auto; gap: 12px; align-items: start;
+}
+@media (max-width: 500px) {
+  .activity-item { grid-template-columns: 1fr auto; }
+  .activity-date { display: none; }
+}
+.activity-date { font-size: 12px; color: var(--text-tertiary); padding-top: 2px; }
+.activity-body .title { font-size: 14px; font-weight: 500; }
+.activity-body .note { font-size: 12px; color: var(--text-secondary); margin-top: 5px; font-style: italic; line-height: 1.5; }
+
+.badge { font-size: 11px; padding: 2px 8px; border-radius: 20px; white-space: nowrap; }
+.badge-linkedin   { background: #E8F0FC; color: #1a4fa0; }
+.badge-li-rapport { background: #E8F0FC; color: #1a4fa0; }
+.badge-event      { background: #EAF3DE; color: #3B6D11; }
+.badge-nyhetsbrev { background: #FAEEDA; color: #854F0B; }
+.badge-landningssida { background: #E1F5EE; color: #0F6E56; }
+.badge-övrigt     { background: var(--bg-secondary); color: var(--text-secondary); }
+@media (prefers-color-scheme: dark) {
+  .badge-linkedin   { background: #1a2a4a; color: #7aaaf0; }
+  .badge-li-rapport { background: #1a2a4a; color: #7aaaf0; }
+  .badge-event      { background: #1a2e10; color: #7dc155; }
+  .badge-nyhetsbrev { background: #3a2a10; color: #f0b855; }
+  .badge-landningssida { background: #0a2a20; color: #55c8a0; }
+}
+
+.initiativ-tag {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 11px; padding: 1px 8px; border-radius: 20px;
+  background: #F3EEFB; color: #534AB7; margin-top: 6px;
+}
+.initiativ-tag i { font-size: 12px; }
+@media (prefers-color-scheme: dark) {
+  .initiativ-tag { background: #2a2548; color: #9f97e0; }
+}
+
+.empty-state { text-align: center; padding: 3rem 1rem; color: var(--text-tertiary); }
+.empty-state i { font-size: 32px; display: block; margin-bottom: 12px; }
+.empty-state p { font-size: 14px; }
+
+.footer { text-align: center; font-size: 11px; color: var(--text-tertiary); margin-top: 2.5rem; padding-top: 1.5rem; border-top: 0.5px solid var(--border); }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div>
+      <h1>ISEC Communication Log</h1>
+      <p>59 Days × ISEC &mdash; kommunikation, kampanjer och event</p>
+    </div>
+    <span class="year-badge">2026</span>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card"><div class="label">LinkedIn-inlägg</div><div class="value" id="stat-li">—</div></div>
+    <div class="stat-card"><div class="label">Visningar totalt</div><div class="value" id="stat-impr">—</div></div>
+    <div class="stat-card"><div class="label">Klick totalt</div><div class="value" id="stat-clicks">—</div></div>
+    <div class="stat-card"><div class="label">Event</div><div class="value" id="stat-event">—</div></div>
+  </div>
+
+  <div class="filter-row" id="type-filters">
+    <button class="filter-btn active" onclick="filterActivities('alla', this)">Alla</button>
+    <button class="filter-btn" onclick="filterActivities('linkedin', this)">LinkedIn</button>
+    <button class="filter-btn" onclick="filterActivities('event', this)">Event</button>
+    <button class="filter-btn" onclick="filterActivities('landningssida', this)">Webb</button>
+  </div>
+  <div class="filter-row" id="initiativ-filters"></div>
+
+  <div id="activity-container"></div>
+
+  <div class="footer">Uppdateras löpande av 59 Days</div>
+
+</div>
+
+<script>
+let currentFilter = 'alla';
+let currentInitiativ = 'alla';
+
+// Aggregerad statistik (uppdateras vid varje regenerering)
+const stats = { linkedinPosts: 51, impressions: 64781, clicks: 6273, events: 2 };
+
+const activities = [
+  // Månadssummeringar LinkedIn
+  { id:101, date:'2026-06-17', title:'LinkedIn juni 2026', type:'li-rapport', initiativ:'', note:'12 inlägg · 12 264 visningar · 2 048 klick. Toppinlägg: branschreflektion (3 922 visningar, 1 308 klick).' },
+  { id:102, date:'2026-05-31', title:'LinkedIn maj 2026', type:'li-rapport', initiativ:'', note:'15 inlägg · 16 384 visningar · 909 klick. Adecla-sammangåendet nådde 4 364 visningar.' },
+  { id:103, date:'2026-04-30', title:'LinkedIn april 2026', type:'li-rapport', initiativ:'', note:'11 inlägg · 11 702 visningar · 1 196 klick. REST API-inlägget gav 753 klick.' },
+  { id:104, date:'2026-03-31', title:'LinkedIn mars 2026', type:'li-rapport', initiativ:'', note:'13 inlägg · 24 431 visningar · 2 120 klick. Norge-lanseringen och Oslo-kontoret drev räckvidden.' },
+
+  // Event
+  { id:201, date:'2026-06-24', title:'Sommarmingel HållBar – Almedalen', type:'event', initiativ:'', note:'59 Days: inbjudan och kommunikation. Kronstallgränd, Visby.' },
+  { id:202, date:'2026-05-26', title:'Sommarmingel ISEC', type:'event', initiativ:'', note:'ISEC:s eget sommarmingel. 85 anmälda.' },
+
+  // Milstolpar / övrigt
+  { id:301, date:'2026-06-03', title:'Investor Services-landningssida', type:'landningssida', initiativ:'Investor Services', note:'Publicerad på webbplatsen. Positionering kring ISK-tillstånd.' },
+  { id:302, date:'2026-03-24', title:'59 Days tar över LinkedIn', type:'övrigt', initiativ:'', note:'Start på löpande innehållsproduktion och strategi.' },
+];
+
+function typeLabel(type) {
+  const map = { linkedin:'LinkedIn', 'li-rapport':'LinkedIn-rapport', event:'Event', nyhetsbrev:'Nyhetsbrev', landningssida:'Webb', 'övrigt':'Övrigt' };
+  return map[type] || type;
+}
+
+function renderInitiativFilters() {
+  const initiativs = [...new Set(activities.map(a => a.initiativ).filter(Boolean))].sort();
+  const container = document.getElementById('initiativ-filters');
+  if (initiativs.length === 0) { container.innerHTML = ''; return; }
+  let html = `<button class="filter-btn ${currentInitiativ==='alla'?'active':''}" onclick="filterInitiativ('alla', this)"><i class="ti ti-tags" aria-hidden="true" style="font-size:12px;"></i> Alla initiativ</button>`;
+  initiativs.forEach(i => {
+    html += `<button class="filter-btn ${currentInitiativ===i?'active':''}" onclick="filterInitiativ('${i.replace(/'/g,"\\'")}', this)">${i}</button>`;
+  });
+  container.innerHTML = html;
+}
+
+function renderLog() {
+  renderInitiativFilters();
+  const container = document.getElementById('activity-container');
+  let filtered = activities;
+  if (currentFilter !== 'alla') {
+    if (currentFilter === 'linkedin') {
+      filtered = filtered.filter(a => a.type === 'linkedin' || a.type === 'li-rapport');
+    } else {
+      filtered = filtered.filter(a => a.type === currentFilter);
+    }
+  }
+  if (currentInitiativ !== 'alla') filtered = filtered.filter(a => a.initiativ === currentInitiativ);
+  filtered = [...filtered].sort((a,b) => b.date.localeCompare(a.date));
+
+  document.getElementById('stat-li').textContent     = stats.linkedinPosts;
+  document.getElementById('stat-impr').textContent   = stats.impressions.toLocaleString('sv-SE');
+  document.getElementById('stat-clicks').textContent = stats.clicks.toLocaleString('sv-SE');
+  document.getElementById('stat-event').textContent  = stats.events;
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="empty-state"><i class="ti ti-inbox" aria-hidden="true"></i><p>Inga aktiviteter här ännu.</p></div>';
+    return;
+  }
+
+  const months = {};
+  filtered.forEach(a => {
+    const d = new Date(a.date + 'T12:00:00');
+    const key = d.toLocaleDateString('sv-SE', {year:'numeric', month:'long'});
+    if (!months[key]) months[key] = [];
+    months[key].push(a);
+  });
+
+  let html = '';
+  Object.entries(months).forEach(([month, items]) => {
+    html += `<div class="section-label">${month}</div><div class="activity-list">`;
+    items.forEach(a => {
+      const d = new Date(a.date + 'T12:00:00');
+      const dateStr = d.toLocaleDateString('sv-SE', {day:'numeric', month:'short'});
+      html += `<div class="activity-item">
+        <div class="activity-date">${dateStr}</div>
+        <div class="activity-body">
+          <div class="title">${a.title}</div>
+          ${a.note ? `<div class="note">${a.note}</div>` : ''}
+          ${a.initiativ ? `<span class="initiativ-tag"><i class="ti ti-tag" aria-hidden="true"></i>${a.initiativ}</span>` : ''}
+        </div>
+        <span class="badge badge-${a.type}">${typeLabel(a.type)}</span>
+      </div>`;
+    });
+    html += '</div>';
+  });
+  container.innerHTML = html;
+}
+
+function filterActivities(type, btn) {
+  currentFilter = type;
+  document.querySelectorAll('#type-filters .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderLog();
+}
+
+function filterInitiativ(initiativ, btn) {
+  currentInitiativ = initiativ;
+  document.querySelectorAll('#initiativ-filters .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderLog();
+}
+
+renderLog();
+</script>
+</body>
+</html>
