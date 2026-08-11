@@ -196,7 +196,7 @@ body {
   <div class="header">
     <div>
       <h1>ISEC Communication Log</h1>
-      <p>Kommunikation, kampanjer och event &mdash; sedan mars 2026</p>
+      <p>Kommunikation, initiativ och event &mdash; sedan mars 2026</p>
     </div>
     <span class="year-badge">2026</span>
   </div>
@@ -244,14 +244,16 @@ let currentFilter = 'alla';
 let currentInitiativ = 'alla';
 
 // Aggregerad statistik (uppdateras vid varje regenerering)
-const stats = { linkedinPosts: 51, impressions: 64781, clicks: 6273, events: 2 };
+const stats = { linkedinPosts: 68, impressions: 83732, clicks: 7853, events: 2 };
 
 const activities = [
   // Månadssummeringar LinkedIn
-  { id:101, date:'2026-06-17', title:'LinkedIn juni 2026', type:'li-rapport', initiativ:'', note:'12 inlägg · 12 264 visningar · 2 048 klick. Toppinlägg: branschreflektion (3 922 visningar, 1 308 klick).' },
-  { id:102, date:'2026-05-31', title:'LinkedIn maj 2026', type:'li-rapport', initiativ:'', note:'15 inlägg · 16 384 visningar · 909 klick. Adecla-sammangåendet nådde 4 364 visningar.' },
-  { id:103, date:'2026-04-30', title:'LinkedIn april 2026', type:'li-rapport', initiativ:'', note:'11 inlägg · 11 702 visningar · 1 196 klick. REST API-inlägget gav 753 klick.' },
-  { id:104, date:'2026-03-31', title:'LinkedIn mars 2026', type:'li-rapport', initiativ:'', note:'13 inlägg · 24 431 visningar · 2 120 klick. Norge-lanseringen och Oslo-kontoret drev räckvidden.' },
+  { id:106, date:'2026-08-09', title:'LinkedIn augusti 2026', type:'li-rapport', initiativ:'', note:'2 inlägg · 2 460 visningar · 147 klick · 8,9\u2009% engagemang (t.o.m. 9 aug). Toppinlägg 6 aug: padel Långholmen (1 493 visningar).' },
+  { id:105, date:'2026-07-31', title:'LinkedIn juli 2026', type:'li-rapport', initiativ:'', note:'9 inlägg · 10 138 visningar · 457 klick · 7,4\u2009% engagemang. Toppinlägg 2 juli: LMT-reglerna i kraft (1 910 visningar).' },
+  { id:101, date:'2026-06-30', title:'LinkedIn juni 2026', type:'li-rapport', initiativ:'', note:'18 inlägg · 18 617 visningar · 3 024 klick. Toppinlägg 2 juni (3 922 visningar, 1 308 klick).' },
+  { id:102, date:'2026-05-31', title:'LinkedIn maj 2026', type:'li-rapport', initiativ:'', note:'15 inlägg · 16 384 visningar · 909 klick. Toppinlägg 25 maj: Adecla-sammangåendet (4 364 visningar).' },
+  { id:103, date:'2026-04-30', title:'LinkedIn april 2026', type:'li-rapport', initiativ:'', note:'11 inlägg · 11 702 visningar · 1 196 klick. Toppinlägg 16 april: REST API (753 klick).' },
+  { id:104, date:'2026-03-31', title:'LinkedIn mars 2026', type:'li-rapport', initiativ:'', note:'13 inlägg · 24 431 visningar · 2 120 klick. Toppinlägg 19 mars: Oslo Fonddagen (4 076 visningar).' },
 
   // Event
   { id:201, date:'2026-06-24', title:'Sommarmingel HållBar – Almedalen', type:'event', initiativ:'', note:'59 Days: inbjudan och kommunikation. Kronstallgränd, Visby.' },
