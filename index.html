@@ -95,7 +95,6 @@ body {
 }
 .filter-btn.active { background: var(--graphite); color: #fff; border-color: var(--graphite); }
 .filter-btn:hover:not(.active) { border-color: var(--petrol); color: var(--petrol); }
-#initiativ-filters { margin-bottom: 1.25rem; }
 
 .section-label {
   font-family: var(--serif); font-size: 18px; font-weight: 600; color: var(--graphite);
@@ -124,14 +123,6 @@ body {
 .badge-nyhetsbrev { background: var(--bone); color: var(--graphite); }
 .badge-landningssida { background: var(--soft-white); color: var(--text-secondary); border: 1px solid var(--border); }
 .badge-övrigt     { background: var(--soft-white); color: var(--text-tertiary); border: 1px solid var(--border); }
-
-.initiativ-tag {
-  display: inline-flex; align-items: center; gap: 4px;
-  font-size: 11px; padding: 2px 8px; border-radius: 2px;
-  background: var(--soft-white); color: var(--petrol); margin-top: 7px;
-  border: 1px solid var(--border);
-}
-.initiativ-tag i { font-size: 12px; }
 
 .empty-state { text-align: center; padding: 3rem 1rem; color: var(--text-tertiary); }
 .empty-state i { font-size: 32px; display: block; margin-bottom: 12px; }
@@ -196,7 +187,7 @@ body {
   <div class="header">
     <div>
       <h1>ISEC Communication Log</h1>
-      <p>Kommunikation, initiativ och event &mdash; sedan mars 2026</p>
+      <p>Kommunikation och event &mdash; sedan mars 2026</p>
     </div>
     <span class="year-badge">2026</span>
   </div>
@@ -214,7 +205,6 @@ body {
     <button class="filter-btn" onclick="filterActivities('event', this)">Event</button>
     <button class="filter-btn" onclick="filterActivities('landningssida', this)">Webb</button>
   </div>
-  <div class="filter-row" id="initiativ-filters"></div>
 
   <div id="activity-container"></div>
 
@@ -241,30 +231,29 @@ function checkGate(){
 }
 
 let currentFilter = 'alla';
-let currentInitiativ = 'alla';
 
 // Aggregerad statistik (uppdateras vid varje regenerering)
 const stats = { linkedinPosts: 80, impressions: 94040, clicks: 9918, events: 3 };
 
 const activities = [
   // Månadssummeringar LinkedIn
-  { id:107, date:'2026-09-14', title:'LinkedIn september 2026', type:'li-rapport', initiativ:'', note:'5 inlägg t.o.m. 14 sep · 4 722 visningar · 1 768 klick. Padel-recapet (10 sep) stod för merparten av klicken (3 062 visn, 1 753 klick) – tagg-effekt, ej normalläge.' },
-  { id:106, date:'2026-08-31', title:'LinkedIn augusti 2026', type:'li-rapport', initiativ:'', note:'9 inlägg · 8 046 visningar · 444 klick · 9,2\u2009% engagemang. Toppinlägg 20 aug (1 068 visningar).' },
-  { id:105, date:'2026-07-31', title:'LinkedIn juli 2026', type:'li-rapport', initiativ:'', note:'9 inlägg · 10 138 visningar · 457 klick · 7,4\u2009% engagemang. Toppinlägg 2 juli: LMT-reglerna i kraft (1 910 visningar).' },
-  { id:101, date:'2026-06-30', title:'LinkedIn juni 2026', type:'li-rapport', initiativ:'', note:'18 inlägg · 18 617 visningar · 3 024 klick. Toppinlägg 2 juni (3 922 visningar, 1 308 klick).' },
-  { id:102, date:'2026-05-31', title:'LinkedIn maj 2026', type:'li-rapport', initiativ:'', note:'15 inlägg · 16 384 visningar · 909 klick. Toppinlägg 25 maj: Adecla-sammangåendet (4 364 visningar).' },
-  { id:103, date:'2026-04-30', title:'LinkedIn april 2026', type:'li-rapport', initiativ:'', note:'11 inlägg · 11 702 visningar · 1 196 klick. Toppinlägg 16 april: REST API (753 klick).' },
-  { id:104, date:'2026-03-31', title:'LinkedIn mars 2026', type:'li-rapport', initiativ:'', note:'13 inlägg · 24 431 visningar · 2 120 klick. Toppinlägg 19 mars: Oslo Fonddagen (4 076 visningar).' },
+  { id:107, date:'2026-09-14', title:'LinkedIn september 2026', type:'li-rapport', note:'5 inlägg t.o.m. 14 sep · 4 722 visningar · 1 768 klick. Padel-recapet (10 sep) stod för merparten av klicken (3 062 visn, 1 753 klick) – tagg-effekt, ej normalläge.' },
+  { id:106, date:'2026-08-31', title:'LinkedIn augusti 2026', type:'li-rapport', note:'9 inlägg · 8 046 visningar · 444 klick · 9,2\u2009% engagemang. Toppinlägg 20 aug (1 068 visningar).' },
+  { id:105, date:'2026-07-31', title:'LinkedIn juli 2026', type:'li-rapport', note:'9 inlägg · 10 138 visningar · 457 klick · 7,4\u2009% engagemang. Toppinlägg 2 juli: LMT-reglerna i kraft (1 910 visningar).' },
+  { id:101, date:'2026-06-30', title:'LinkedIn juni 2026', type:'li-rapport', note:'18 inlägg · 18 617 visningar · 3 024 klick. Toppinlägg 2 juni (3 922 visningar, 1 308 klick).' },
+  { id:102, date:'2026-05-31', title:'LinkedIn maj 2026', type:'li-rapport', note:'15 inlägg · 16 384 visningar · 909 klick. Toppinlägg 25 maj: Adecla-sammangåendet (4 364 visningar).' },
+  { id:103, date:'2026-04-30', title:'LinkedIn april 2026', type:'li-rapport', note:'11 inlägg · 11 702 visningar · 1 196 klick. Toppinlägg 16 april: REST API (753 klick).' },
+  { id:104, date:'2026-03-31', title:'LinkedIn mars 2026', type:'li-rapport', note:'13 inlägg · 24 431 visningar · 2 120 klick. Toppinlägg 19 mars: Oslo Fonddagen (4 076 visningar).' },
 
   // Event
-  { id:203, date:'2026-09-09', title:'Padel-event', type:'event', initiativ:'', note:'Långholmen. Ca 35–40 deltagare.' },
-  { id:201, date:'2026-06-24', title:'Sommarmingel HållBar – Almedalen', type:'event', initiativ:'', note:'59 Days: inbjudan och kommunikation. Kronstallgränd, Visby.' },
-  { id:202, date:'2026-05-26', title:'Sommarmingel ISEC', type:'event', initiativ:'', note:'ISEC:s eget sommarmingel. 85 anmälda.' },
+  { id:203, date:'2026-09-09', title:'Padel-event', type:'event', note:'Långholmen. Ca 35–40 deltagare.' },
+  { id:201, date:'2026-06-24', title:'Sommarmingel HållBar – Almedalen', type:'event', note:'59 Days: inbjudan och kommunikation. Kronstallgränd, Visby.' },
+  { id:202, date:'2026-05-26', title:'Sommarmingel ISEC', type:'event', note:'ISEC:s eget sommarmingel. 85 anmälda.' },
 
   // Milstolpar / övrigt
-  { id:303, date:'2026-09-14', title:'Nyhetsbrev skickat', type:'nyhetsbrev', initiativ:'', note:'HTML-utskick – tillfällig lösning i väntan på att ISEC löser listorna i CRM. Öppningsdata ej tillgänglig.' },
-  { id:301, date:'2026-06-03', title:'Investor Services-landningssida', type:'landningssida', initiativ:'Investor Services', note:'Publicerad på webbplatsen. Positionering kring ISK-tillstånd.' },
-  { id:302, date:'2026-03-24', title:'59 Days tar över LinkedIn', type:'övrigt', initiativ:'', note:'Start på löpande innehållsproduktion och strategi.' },
+  { id:303, date:'2026-09-14', title:'Nyhetsbrev skickat', type:'nyhetsbrev', note:'HTML-utskick – tillfällig lösning i väntan på att ISEC löser listorna i CRM. Öppningsdata ej tillgänglig.' },
+  { id:301, date:'2026-06-03', title:'Investor Services-landningssida', type:'landningssida', note:'Publicerad på webbplatsen. Positionering kring ISK-tillstånd.' },
+  { id:302, date:'2026-03-24', title:'59 Days tar över LinkedIn', type:'övrigt', note:'Start på löpande innehållsproduktion och strategi.' },
 ];
 
 function typeLabel(type) {
@@ -272,19 +261,7 @@ function typeLabel(type) {
   return map[type] || type;
 }
 
-function renderInitiativFilters() {
-  const initiativs = [...new Set(activities.map(a => a.initiativ).filter(Boolean))].sort();
-  const container = document.getElementById('initiativ-filters');
-  if (initiativs.length === 0) { container.innerHTML = ''; return; }
-  let html = `<button class="filter-btn ${currentInitiativ==='alla'?'active':''}" onclick="filterInitiativ('alla', this)"><i class="ti ti-tags" aria-hidden="true" style="font-size:12px;"></i> Alla initiativ</button>`;
-  initiativs.forEach(i => {
-    html += `<button class="filter-btn ${currentInitiativ===i?'active':''}" onclick="filterInitiativ('${i.replace(/'/g,"\\'")}', this)">${i}</button>`;
-  });
-  container.innerHTML = html;
-}
-
 function renderLog() {
-  renderInitiativFilters();
   const container = document.getElementById('activity-container');
   let filtered = activities;
   if (currentFilter !== 'alla') {
@@ -294,7 +271,6 @@ function renderLog() {
       filtered = filtered.filter(a => a.type === currentFilter);
     }
   }
-  if (currentInitiativ !== 'alla') filtered = filtered.filter(a => a.initiativ === currentInitiativ);
   filtered = [...filtered].sort((a,b) => b.date.localeCompare(a.date));
 
   document.getElementById('stat-li').textContent     = stats.linkedinPosts;
@@ -326,7 +302,6 @@ function renderLog() {
         <div class="activity-body">
           <div class="title">${a.title}</div>
           ${a.note ? `<div class="note">${a.note}</div>` : ''}
-          ${a.initiativ ? `<span class="initiativ-tag"><i class="ti ti-tag" aria-hidden="true"></i>${a.initiativ}</span>` : ''}
         </div>
         <span class="badge badge-${a.type}">${typeLabel(a.type)}</span>
       </div>`;
@@ -339,13 +314,6 @@ function renderLog() {
 function filterActivities(type, btn) {
   currentFilter = type;
   document.querySelectorAll('#type-filters .filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderLog();
-}
-
-function filterInitiativ(initiativ, btn) {
-  currentInitiativ = initiativ;
-  document.querySelectorAll('#initiativ-filters .filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   renderLog();
 }
