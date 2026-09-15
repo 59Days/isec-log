@@ -244,11 +244,12 @@ let currentFilter = 'alla';
 let currentInitiativ = 'alla';
 
 // Aggregerad statistik (uppdateras vid varje regenerering)
-const stats = { linkedinPosts: 68, impressions: 83732, clicks: 7853, events: 2 };
+const stats = { linkedinPosts: 80, impressions: 94040, clicks: 9918, events: 3 };
 
 const activities = [
   // Månadssummeringar LinkedIn
-  { id:106, date:'2026-08-09', title:'LinkedIn augusti 2026', type:'li-rapport', initiativ:'', note:'2 inlägg · 2 460 visningar · 147 klick · 8,9\u2009% engagemang (t.o.m. 9 aug). Toppinlägg 6 aug: padel Långholmen (1 493 visningar).' },
+  { id:107, date:'2026-09-14', title:'LinkedIn september 2026', type:'li-rapport', initiativ:'', note:'5 inlägg t.o.m. 14 sep · 4 722 visningar · 1 768 klick. Padel-recapet (10 sep) stod för merparten av klicken (3 062 visn, 1 753 klick) – tagg-effekt, ej normalläge.' },
+  { id:106, date:'2026-08-31', title:'LinkedIn augusti 2026', type:'li-rapport', initiativ:'', note:'9 inlägg · 8 046 visningar · 444 klick · 9,2\u2009% engagemang. Toppinlägg 20 aug (1 068 visningar).' },
   { id:105, date:'2026-07-31', title:'LinkedIn juli 2026', type:'li-rapport', initiativ:'', note:'9 inlägg · 10 138 visningar · 457 klick · 7,4\u2009% engagemang. Toppinlägg 2 juli: LMT-reglerna i kraft (1 910 visningar).' },
   { id:101, date:'2026-06-30', title:'LinkedIn juni 2026', type:'li-rapport', initiativ:'', note:'18 inlägg · 18 617 visningar · 3 024 klick. Toppinlägg 2 juni (3 922 visningar, 1 308 klick).' },
   { id:102, date:'2026-05-31', title:'LinkedIn maj 2026', type:'li-rapport', initiativ:'', note:'15 inlägg · 16 384 visningar · 909 klick. Toppinlägg 25 maj: Adecla-sammangåendet (4 364 visningar).' },
@@ -256,10 +257,12 @@ const activities = [
   { id:104, date:'2026-03-31', title:'LinkedIn mars 2026', type:'li-rapport', initiativ:'', note:'13 inlägg · 24 431 visningar · 2 120 klick. Toppinlägg 19 mars: Oslo Fonddagen (4 076 visningar).' },
 
   // Event
+  { id:203, date:'2026-09-09', title:'Padel-event', type:'event', initiativ:'', note:'Långholmen. Ca 35–40 deltagare.' },
   { id:201, date:'2026-06-24', title:'Sommarmingel HållBar – Almedalen', type:'event', initiativ:'', note:'59 Days: inbjudan och kommunikation. Kronstallgränd, Visby.' },
   { id:202, date:'2026-05-26', title:'Sommarmingel ISEC', type:'event', initiativ:'', note:'ISEC:s eget sommarmingel. 85 anmälda.' },
 
   // Milstolpar / övrigt
+  { id:303, date:'2026-09-14', title:'Nyhetsbrev skickat', type:'nyhetsbrev', initiativ:'', note:'HTML-utskick – tillfällig lösning i väntan på att ISEC löser listorna i CRM. Öppningsdata ej tillgänglig.' },
   { id:301, date:'2026-06-03', title:'Investor Services-landningssida', type:'landningssida', initiativ:'Investor Services', note:'Publicerad på webbplatsen. Positionering kring ISK-tillstånd.' },
   { id:302, date:'2026-03-24', title:'59 Days tar över LinkedIn', type:'övrigt', initiativ:'', note:'Start på löpande innehållsproduktion och strategi.' },
 ];
